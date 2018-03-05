@@ -1,0 +1,43 @@
+{
+  "name": "faster",
+  "version": "1.0.0",
+  "description": "Basic fast and lighteight theme.",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "gulp copy-assets"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Av1shay/faster.git"
+  },
+  "keywords": [
+    "wordpress",
+    "theme",
+    "framework",
+    "bootstrap",
+    "underscores"
+  ],
+  "author": "Avishay Guttman",
+  "license": "MIT",
+  "homepage": "https://planwize.com",
+  "devDependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "browser-sync": "^2.21.0",
+    "font-awesome": "^4.7.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sequence": "^0.4.6",
+    "gulp-sourcemaps": "^2.6.2",
+    "gulp-uglify": "^3.0.0",
+    "gulp-watch": "^4.3.11",
+    "tether": "^1.4.3"
+  },
+  "dependencies": {
+    "del": "^3.0.0"
+  }
+}
