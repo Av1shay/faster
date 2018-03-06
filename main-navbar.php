@@ -6,6 +6,7 @@
  * @package faster
  */
 
+$mr_auto = '';
 $show_nav_search = get_option('faster_show_nav_search');
 if ( $show_nav_search ) $mr_auto = 'mr-auto';
 ?>

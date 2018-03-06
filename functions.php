@@ -105,6 +105,42 @@ function faster_widgets_init() {
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
+	register_sidebar( array(
+		'name'          => esc_html__( 'Footer 1', 'faster' ),
+		'id'            => 'footer-1',
+		'description'   => esc_html__( 'First column in the footer.', 'faster' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => esc_html__( 'Footer 2', 'faster' ),
+		'id'            => 'footer-2',
+		'description'   => esc_html__( 'Second column in the footer.', 'faster' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => esc_html__( 'Footer 3', 'faster' ),
+		'id'            => 'footer-3',
+		'description'   => esc_html__( 'Third column in the footer.', 'faster' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => esc_html__( 'Footer 4', 'faster' ),
+		'id'            => 'footer-4',
+		'description'   => esc_html__( 'Fourth column in the footer.', 'faster' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
 }
 add_action( 'widgets_init', 'faster_widgets_init' );
 
@@ -133,6 +169,20 @@ add_filter('primary-bootstrap-column', function ($def_column_num){
 	}
 	return $def_column_num;
 });
+
+/**
+ * Check if we have at least one active footer sidebar.
+ *
+ * @return bool
+ */
+function has_active_footer_sidebar() {
+	for ( $i = 1; $i < 5; $i++ ) {
+		if ( is_active_sidebar('footer-' . $i) ){
+			return true;
+		}
+	}
+	return false;
+}
 
 /**
  * Implement the Custom Header feature.
@@ -166,3 +216,6 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+if ( file_exists(get_template_directory() . '/inc/custom-snippets.php') ) {
+	require get_template_directory() . '/inc/custom-snippets.php';
+}

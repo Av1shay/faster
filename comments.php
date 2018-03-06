@@ -68,8 +68,14 @@ if ( post_password_required() ) {
 		endif;
 
 	endif; // Check for have_comments().
-
-	comment_form();
+	$text_align = is_rtl() ? 'text-left' : 'text-right';
+    $comments_form_args = array(
+        'comment_field' => '<div class="form-group"><label for="comment">'._x('Comment', 'noun', 'faster').'</label>
+            <textarea id="comment" name="comment" class="form-control" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></div>',
+        'class_submit' => 'btn btn-info',
+        'submit_field' => '<p class="form-submit '.$text_align.'">%1$s %2$s</p>'
+    );
+	comment_form($comments_form_args);
 	?>
 
 </div><!-- #comments -->

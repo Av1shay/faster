@@ -9,8 +9,8 @@
 
 get_header();
 ?>
-
-	<section id="primary" class="content-area">
+<div class="row">
+	<section id="primary" class="content-area <?php echo apply_filters('primary-bootstrap-column', 'col-sm-8') ?>">
 		<main id="main" class="site-main">
 
 		<?php if ( have_posts() ) : ?>
@@ -50,6 +50,7 @@ get_header();
 		</main><!-- #main -->
 	</section><!-- #primary -->
 
-<?php
-get_sidebar();
-get_footer();
+	<?php get_sidebar(); ?>
+</div>
+
+<?php get_footer();

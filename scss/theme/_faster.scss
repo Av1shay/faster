@@ -11,12 +11,21 @@ body{
 }
 .site-content{
   min-height: $site-content-min-height;
-  margin-top: 2.2rem;
+  margin: 2.2rem 0;
 }
 #colophon{
   text-align: center;
   .site-info{
     font-size: 80%;
     padding: 5px 0;
+  }
+}
+.comment.depth-1{
+  border-bottom: 1px solid whitesmoke;
+  padding: 10px 0;
+}
+.widget_nav_menu{
+  ul{
+    list-style: none;
   }
 }
