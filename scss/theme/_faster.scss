@@ -1,0 +1,22 @@
+@import "vars";
+@import "mixins";
+
+body{
+
+}
+.site-title{
+  line-height: 24px;
+  margin: 0;
+  font-size: initial;
+}
+.site-content{
+  min-height: $site-content-min-height;
+  margin-top: 2.2rem;
+}
+#colophon{
+  text-align: center;
+  .site-info{
+    font-size: 80%;
+    padding: 5px 0;
+  }
+}

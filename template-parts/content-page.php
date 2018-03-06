@@ -34,7 +34,7 @@
 				sprintf(
 					wp_kses(
 						/* translators: %s: Name of current post. Only visible to screen readers */
-						__( 'Edit <span class="screen-reader-text">%s</span>', 'faster' ),
+						__( 'Edit <span class="sr-only">%s</span>', 'faster' ),
 						array(
 							'span' => array(
 								'class' => array(),

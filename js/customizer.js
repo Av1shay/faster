@@ -8,20 +8,23 @@
 
 ( function( $ ) {
 
+    const api = wp.customize, primary = $('#primary'),
+        secondary = $('#secondary'), siteInfo = $('#footer-site-info');
+
 	// Site title and description.
-	wp.customize( 'blogname', function( value ) {
+    api( 'blogname', function( value ) {
 		value.bind( function( to ) {
 			$( '.site-title a' ).text( to );
 		} );
 	} );
-	wp.customize( 'blogdescription', function( value ) {
+    api( 'blogdescription', function( value ) {
 		value.bind( function( to ) {
 			$( '.site-description' ).text( to );
 		} );
 	} );
 
 	// Header text color.
-	wp.customize( 'header_textcolor', function( value ) {
+    api( 'header_textcolor', function( value ) {
 		value.bind( function( to ) {
 			if ( 'blank' === to ) {
 				$( '.site-title, .site-description' ).css( {
@@ -39,4 +42,38 @@
 			}
 		} );
 	} );
-} )( jQuery );
+
+	// Theme options
+    api('faster_show_sidebar', function (val) {
+        val.bind(function (checked) {
+            if ( ! checked ) {
+                secondary.addClass('d-none');
+                primary.css({'flex': '0 0 100%', 'max-width': '100%'});
+            } else {
+                if ( secondary.hasClass('d-none') ) {
+                    secondary.removeClass('d-none');
+                    primary.css({'flex': '0 0 66.66667%', 'max-width': '66.66667%'});
+                }
+            }
+        });
+    });
+
+    api('faster_show_nav_search', function (val) {
+        val.bind(function (checked) {
+            $('#primary-menu-search').toggleClass('d-none', ! checked);
+        });
+    });
+
+    api('faster_footer_content', function (val) {
+        val.bind(function (content) {
+            siteInfo.html(content);
+        });
+    });
+
+    api('faster_footer_bg_color', function (val) {
+        val.bind(function (color) {
+            siteInfo.css('background-color', color);
+        });
+    });
+
+} )(jQuery);

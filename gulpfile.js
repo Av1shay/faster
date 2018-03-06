@@ -34,6 +34,7 @@ const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
 
 
+/* Take all scss files in the folder /scss/, and compile theme to css into the folder /css/ */
 gulp.task('sass', function () {
     return gulp.src('./scss/*.scss')
         .pipe(plumber({
@@ -51,8 +52,9 @@ gulp.task('browser-sync', function() {
 
 });
 
+/* minify faster.css file to faster.min.css file */
 gulp.task('minify-css', function() {
-    return gulp.src('./css/hazeracareer.css')
+    return gulp.src('./css/faster.css')
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(cleanCSS({compatibility: '*'}))
         .pipe(plumber({
@@ -66,15 +68,17 @@ gulp.task('minify-css', function() {
         .pipe(gulp.dest('./css/'));
 });
 
+/* images minify */
 gulp.task('imagemin', function () {
     gulp.src('src/images/*')
         .pipe(imagemin())
         .pipe(gulp.dest('images'))
 });
 
+/* css watcher */
 gulp.task('watch', function () {
     gulp.watch('./scss/**/*.scss', ['styles']);
-    gulp.watch([basePaths.dev + 'js/**/*.js','js/**/*.js','!js/hazeracareer.js','!js/hazeracareer.min.js'], ['scripts']);
+    gulp.watch([basePaths.dev + 'js/**/*.js','js/**/*.js','!js/faster.js','!js/faster.min.js'], ['scripts']);
 });
 
 // Starts watcher with browser-sync.
@@ -85,15 +89,15 @@ gulp.task('scripts', function() {
     var scripts = [
         basePaths.dev + 'js/tether/tether.js',
         basePaths.dev + 'js/bootstrap4/bootstrap.js',
-        './js/custom-scripts.js'
+        './js/skip-link-focus-fix.js'
     ];
     gulp.src(scripts)
-        .pipe(concat('hazeracareer.min.js'))
+        .pipe(concat('faster.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./js/'));
 
     gulp.src(scripts)
-        .pipe(concat('hazeracareer.js'))
+        .pipe(concat('faster.js'))
         .pipe(gulp.dest('./js/'));
 });
 

@@ -44,7 +44,9 @@ if ( ! function_exists( 'faster_setup' ) ) :
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'faster' ),
+			'primary-menu' => esc_html__( 'Primary', 'faster' ),
+			'secondary-menu' => esc_html__( 'Secondary (', 'faster' ),
+			'footer-menu' => esc_html__( 'Footer', 'faster' ),
 		) );
 
 		/*
@@ -79,24 +81,14 @@ if ( ! function_exists( 'faster_setup' ) ) :
 			'flex-width'  => true,
 			'flex-height' => true,
 		) );
+
+		// Add woocommerce support
+		if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			add_theme_support('woocommerce');
+		}
 	}
 endif;
 add_action( 'after_setup_theme', 'faster_setup' );
-
-/**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @global int $content_width
- */
-function faster_content_width() {
-	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-	$GLOBALS['content_width'] = apply_filters( 'faster_content_width', 640 );
-}
-add_action( 'after_setup_theme', 'faster_content_width', 0 );
 
 /**
  * Register widget area.
@@ -120,17 +112,27 @@ add_action( 'widgets_init', 'faster_widgets_init' );
  * Enqueue scripts and styles.
  */
 function faster_scripts() {
-	wp_enqueue_style( 'faster-style', get_stylesheet_uri() );
+	$theme_uri = get_template_directory_uri();
 
-	wp_enqueue_script( 'faster-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+	wp_enqueue_style('faster-style', $theme_uri . '/css/faster.min.css', array(), '20151215');
 
-	wp_enqueue_script( 'faster-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+	wp_enqueue_script( 'faster-script', get_template_directory_uri() . '/js/faster.min.js', array('jquery'), '20151215', true );
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+	/*if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
-	}
+	}*/
 }
 add_action( 'wp_enqueue_scripts', 'faster_scripts' );
+
+/**
+ * If there is no sidebar, let the content speared on the entire width.
+ */
+add_filter('primary-bootstrap-column', function ($def_column_num){
+	if ( empty(get_option('faster_show_sidebar')) ) {
+		return 'col-sm-12';
+	}
+	return $def_column_num;
+});
 
 /**
  * Implement the Custom Header feature.
@@ -151,6 +153,11 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Bootstrap navwalker
+ */
+require get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
 
 /**
  * Load Jetpack compatibility file.

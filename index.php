@@ -14,8 +14,8 @@
 
 get_header();
 ?>
-
-	<div id="primary" class="content-area">
+<div class="row">
+	<div id="primary" class="content-area <?php echo apply_filters('primary-bootstrap-column', 'col-sm-8') ?>">
 		<main id="main" class="site-main">
 
 		<?php
@@ -24,7 +24,7 @@ get_header();
 			if ( is_home() && ! is_front_page() ) :
 				?>
 				<header>
-					<h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
+					<h1 class="page-title sr-only"><?php single_post_title(); ?></h1>
 				</header>
 				<?php
 			endif;
@@ -54,6 +54,7 @@ get_header();
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
-<?php
-get_sidebar();
-get_footer();
+    <?php get_sidebar(); ?>
+</div>
+
+<?php get_footer();
