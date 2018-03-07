@@ -9,51 +9,54 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php
-		if ( is_singular() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
-		else :
-			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-		endif;
+<article id="post-<?php the_ID(); ?>" <?php post_class('border-bottom pb-2 pt-2'); ?>>
+    <div class="row">
+        <?php if ( has_post_thumbnail() ) : ?>
+            <div class="col-sm-3">
+                <?php faster_post_thumbnail() ?>
+            </div>
+        <?php endif ?>
 
-		if ( 'post' === get_post_type() ) :
-			?>
-			<div class="entry-meta">
-				<?php
-				faster_posted_on();
-				faster_posted_by();
-				?>
-			</div><!-- .entry-meta -->
-		<?php endif; ?>
-	</header><!-- .entry-header -->
+        <div class="col-sm-<?php echo has_post_thumbnail() ? '9' : '12' ?>">
 
-	<?php faster_post_thumbnail(); ?>
+            <header class="entry-header">
+                <?php
+                if ( is_singular() ) :
+                    the_title( '<h1 class="entry-title">', '</h1>' );
+                else :
+                    the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
+                endif;
 
-	<div class="entry-content">
-		<?php
-		the_content( sprintf(
-			wp_kses(
-				/* translators: %s: Name of current post. Only visible to screen readers */
-				__( 'Continue reading<span class="sr-only"> "%s"</span>', 'faster' ),
-				array(
-					'span' => array(
-						'class' => array(),
-					),
-				)
-			),
-			get_the_title()
-		) );
+                if ( 'post' === get_post_type() ) :
+                    ?>
+                    <div class="entry-meta">
+                        <?php
+                        faster_posted_on();
+                        faster_posted_by();
+                        ?>
+                    </div><!-- .entry-meta -->
+                <?php endif; ?>
+            </header><!-- .entry-header -->
 
-		wp_link_pages( array(
-			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'faster' ),
-			'after'  => '</div>',
-		) );
-		?>
-	</div><!-- .entry-content -->
+            <div class="entry-content">
+                <?php
+                if ( has_excerpt() ) {
+                    the_excerpt();
+                } else {
+                    the_content('');
+                }
+                wp_link_pages( array(
+                    'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'faster' ),
+                    'after'  => '</div>',
+                ) );
+                ?>
+            </div><!-- .entry-content -->
+            <div style="margin-top: 3.5rem"></div>
+            <footer class="entry-footer">
+                <?php faster_entry_footer(); ?>
+            </footer><!-- .entry-footer -->
 
-	<footer class="entry-footer">
-		<?php faster_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
+        </div><!-- col-sm-x-->
+
+    </div>
 </article><!-- #post-<?php the_ID(); ?> -->

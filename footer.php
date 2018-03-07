@@ -15,7 +15,7 @@ $bg_color = get_theme_mod('faster_footer_bg_color');
 
     </div> <!-- .container -->
 	</div><!-- #content -->
-	<footer id="colophon" class="site-footer">
+	<footer id="colophon" class="site-footer border-top pt-2">
         <?php if ( has_active_footer_sidebar() ) : ?>
             <div class="container">
                 <?php get_sidebar('footer') ?>

@@ -1,3 +1,4 @@
+@import "../../src/scss/bootstrap4/mixins";
 @import "vars";
 @import "mixins";
 
@@ -20,6 +21,9 @@ body{
     padding: 5px 0;
   }
 }
+#commentform{
+  width: $commentform_width;
+}
 .comment.depth-1{
   border-bottom: 1px solid whitesmoke;
   padding: 10px 0;
@@ -28,4 +32,50 @@ body{
   ul{
     list-style: none;
   }
+}
+.comment-form-author,
+.comment-form-email{
+  input{
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    @include form-control-focus()
+  }
+}
+.archive{
+  article{
+    min-height: 100px;
+    .entry-footer{
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}
+.entry-footer{
+  span{
+    margin: 0 10px;
+    &:first-of-type{
+      margin-left: 0;
+    }
+  }
+}
+.entry-meta{
+  font-size: 80%;
+}
+.screen-reader-text{
+  @include sr-only();
+}
+.nav-links{
+  @include clearfix();
+}
+#comments{
+  margin-top: 4rem;
 }

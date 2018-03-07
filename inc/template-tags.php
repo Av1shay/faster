@@ -114,35 +114,38 @@ endif;
 if ( ! function_exists( 'faster_post_thumbnail' ) ) :
 	/**
 	 * Displays an optional post thumbnail.
-	 *
-	 * Wraps the post thumbnail in an anchor element on index views, or a div
-	 * element when on single views.
 	 */
 	function faster_post_thumbnail() {
-		if ( post_password_required() || is_attachment() || ! has_post_thumbnail() ) {
+		if ( post_password_required() || is_attachment() ) {
 			return;
-		}
+		} ?>
 
-		if ( is_singular() ) :
-			?>
-
-			<div class="post-thumbnail">
-				<?php the_post_thumbnail(); ?>
-			</div><!-- .post-thumbnail -->
-
-		<?php else : ?>
-
-		<a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true">
+        <a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true">
 			<?php
 			the_post_thumbnail( 'post-thumbnail', array(
 				'alt' => the_title_attribute( array(
 					'echo' => false,
 				) ),
+				'class' => 'img-thumbnail'
 			) );
 			?>
-		</a>
+        </a>
 
-		<?php
-		endif; // End is_singular().
-	}
+	<?php }
+endif;
+
+if ( ! function_exists('faster_post_navigation') ) :
+	/**
+	 * Post navigation.
+	 */
+    function faster_post_navigation(){
+        $prev_text = '&#8249;&nbsp;%title';
+	    $next_text = '%title&nbsp;&#8250;';
+        $args = array(
+            'prev_text' => $prev_text,
+            'next_text' => $next_text,
+        );
+
+        echo get_the_post_navigation($args);
+    }
 endif;
