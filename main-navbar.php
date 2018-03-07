@@ -2,18 +2,19 @@
 /**
  * Navbar content based on Bootstrap's navbar template.
  *
- * @see https://v4-alpha.getbootstrap.com/components/navbar/
+ * @see https://getbootstrap.com/docs/4.0/components/navbar/
  * @package faster
  */
 
 $mr_auto = '';
 $show_nav_search = get_option('faster_show_nav_search');
+$need_h1 = is_front_page() && is_home();
 if ( $show_nav_search ) $mr_auto = 'mr-auto';
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="container-fluid">
-		<?php if ( is_front_page() && is_home() ) echo '<h1 class="site-title">'; ?>
+		<?php if ( $need_h1 ) echo '<h1 class="site-title">'; ?>
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="navbar-brand" rel="home">
 			<?php
 			if ( has_custom_logo() ) {
@@ -23,7 +24,7 @@ if ( $show_nav_search ) $mr_auto = 'mr-auto';
 			}
 			?>
 		</a>
-		<?php if ( is_front_page() && is_home() ) echo '</h1>'; ?>
+		<?php if ( $need_h1 ) echo '</h1>'; ?>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -34,7 +35,8 @@ if ( $show_nav_search ) $mr_auto = 'mr-auto';
 				'location' => 'primary-menu',
 				'container' => false,
 				'menu_class' => 'navbar-nav ' . $mr_auto,
-				'walker' => new WP_Bootstrap_Navwalker()
+				'depth' => 2,
+				'walker' => class_exists('WP_Bootstrap_Navwalker') ? new WP_Bootstrap_Navwalker() : ''
 			));
 
 			if ( $show_nav_search ) : ?>
