@@ -216,6 +216,8 @@ function faster_wp_dropdown_roles($selected_roles){
 	echo $r;
 }
 
+require_once get_template_directory() . '/inc/shortpixel-master/shortpixel-php-req.php';
+
 /**
  * Implement the Custom Header feature.
  */
@@ -256,7 +258,3 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 if ( file_exists(get_template_directory() . '/inc/custom-snippets.php') ) {
 	require get_template_directory() . '/inc/custom-snippets.php';
 }
-
-require_once get_template_directory() . '/inc/shortpixel-master/shortpixel-php-req.php';
-
-require_once get_template_directory() . '/inc/images-compression.php';
