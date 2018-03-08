@@ -44,7 +44,7 @@ if ( ! function_exists( 'faster_setup' ) ) :
 
 		add_image_size('faster-thumbnail', 255, 176, true);
 
-		// This theme uses wp_nav_menu() in one location.
+		// This theme uses wp_nav_menu) in one location.
 		register_nav_menus( array(
 			'primary-menu' => esc_html__( 'Primary', 'faster' ),
 			'secondary-menu' => esc_html__( 'Secondary (', 'faster' ),
@@ -257,6 +257,6 @@ if ( file_exists(get_template_directory() . '/inc/custom-snippets.php') ) {
 	require get_template_directory() . '/inc/custom-snippets.php';
 }
 
-require_once get_template_directory() . '/inc/shortpixel-php/lib/shortpixel-php-req.php';
+require_once get_template_directory() . '/inc/shortpixel-master/shortpixel-php-req.php';
 
 require_once get_template_directory() . '/inc/images-compression.php';
