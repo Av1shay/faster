@@ -17,7 +17,7 @@ function faster_compress_image($upload, $context){
 		return $upload;
 	}
 
-	ShortPixel\fromUrls($upload['url'])->toFiles($upload_dir['path']);
+	$res = ShortPixel\fromFile($upload['file'])->toFiles($upload_dir['path']);
 
 	return $upload;
 }
