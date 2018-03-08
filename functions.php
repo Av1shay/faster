@@ -148,17 +148,24 @@ add_action( 'widgets_init', 'faster_widgets_init' );
  * Enqueue scripts and styles.
  */
 function faster_scripts() {
-	$theme_uri = get_template_directory_uri();
+	$faster = wp_get_theme();
 
-	wp_enqueue_style('faster-style', $theme_uri . '/css/faster.min.css', array(), '20151215');
-
-	wp_enqueue_script( 'faster-script', get_template_directory_uri() . '/js/faster.min.js', array('jquery'), '20151215', true );
+	wp_enqueue_style('faster-style', $faster->get_template_directory_uri() . '/css/faster.min.css', array(), $faster->display('Version'));
+	wp_enqueue_script( 'faster-script', $faster->get_template_directory_uri() . '/js/faster.min.js', array('jquery'), $faster->display('Version'), true );
 
 	/*if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}*/
 }
 add_action( 'wp_enqueue_scripts', 'faster_scripts' );
+
+function faster_admin_scripts(){
+	$faster = wp_get_theme();
+
+	wp_enqueue_script('faster-admin-script', $faster->get_template_directory_uri() . '/js/admin.min.js', array('jquery'), $faster->display('Version'), true);
+	wp_enqueue_style('faster-admin-style', $faster->get_template_directory_uri() . '/css/admin.css', array(), $faster->display('Version'));
+}
+add_action('admin_enqueue_scripts', 'faster_admin_scripts');
 
 /**
  * If there is no sidebar, let the content speared on the entire width.
@@ -185,6 +192,29 @@ function has_active_footer_sidebar() {
 }
 
 /**
+ * Extend to the core function wp_dropdown_roles(), so it can accept arrays also
+ *
+ * @param $selected_roles string|array
+ */
+function faster_wp_dropdown_roles($selected_roles){
+	$r = '';
+
+	$editable_roles = array_reverse( get_editable_roles() );
+
+	foreach ( $editable_roles as $role => $details ) {
+		$name = translate_user_role($details['name'] );
+		// preselect specified role
+		if ( (is_array($selected_roles) && in_array($role, $selected_roles)) ||  $selected_roles == $role ) {
+			$r .= "\n\t<option selected='selected' value='" . esc_attr( $role ) . "'>$name</option>";
+		} else {
+			$r .= "\n\t<option value='" . esc_attr( $role ) . "'>$name</option>";
+		}
+	}
+
+	echo $r;
+}
+
+/**
  * Implement the Custom Header feature.
  */
 require get_template_directory() . '/inc/custom-header.php';
@@ -208,6 +238,11 @@ require get_template_directory() . '/inc/customizer.php';
  * Bootstrap navwalker
  */
 require get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
+
+/**
+ * Meta Boxes
+ */
+require get_template_directory() . '/inc/meta-boxes.php';
 
 /**
  * Load Jetpack compatibility file.

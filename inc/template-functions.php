@@ -66,30 +66,40 @@ function faster_inline_styles(){
 add_action('wp_footer', 'faster_inline_styles');
 
 /**
- * Append read more to post excerpt on archives.
+ * Prevent user from see post following faster_post_visibility value.
  *
- * @param $excerpt
- *
- * @return string
+ * @param $query WP_Query
  */
-/*function faster_excerpt_read_more($excerpt){
-    if ( is_singular() ) {
-        return $excerpt;
-    }
+function faster_prevent_visibility($query){
+	if ( ! is_single() || 'post' != get_post_type() || is_admin() ) {
+		return;
+	}
 
-	$more_link_text = sprintf(
-		wp_kses(
-			__( 'Continue reading<span class="sr-only">"%s"</span>', 'faster' ),
-			array(
-				'span' => array(
-					'class' => array(),
-				),
-			)
-		),
-		get_the_title()
-	);
-	$more_link = sprintf('<a href="%s">%s</a>', esc_url(get_the_permalink()), $more_link_text);
+	$post_id = get_the_ID();
+	$access = 0;
+	$visibility = get_post_meta($post_id, 'faster_post_visibility', true);
 
-	return $excerpt . $more_link;
+	if ( $visibility == 'visibility_all' ) {
+		return;
+	}
+
+	if ( $visibility == 'visibility_logged_in' && ! is_user_logged_in() ) {
+		wp_die(sprintf(__('You don&#39;t have sufficient permissions to access this page.<br/><a href="%s">Back to homepage</a>', 'faster'), get_home_url()));
+	}
+
+	if ( $visibility == 'visibility_define_roles' ) {
+		$user_roles = wp_get_current_user()->roles;
+		$visibility_roles = unserialize(get_post_meta($post_id, 'faster_post_visibility_roles', true));
+		for ( $i = 0; $i < count($user_roles); $i++ ) {
+			if ( in_array($user_roles[$i], $visibility_roles) ) { // if the user can see the post, we are good to go
+				$access = 1;
+				break;
+			}
+		}
+
+		if ( ! $access ) {
+			wp_die(sprintf(__('You don&#39;t have sufficient permissions to access this page.<br/><a href="%s">Back to homepage</a>', 'faster'), get_home_url()));
+		}
+	}
 }
-add_filter('the_excerpt', 'faster_excerpt_read_more');*/
+add_action('pre_get_posts', 'faster_prevent_visibility');

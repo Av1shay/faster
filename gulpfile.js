@@ -78,7 +78,7 @@ gulp.task('imagemin', function () {
 /* css watcher */
 gulp.task('watch', function () {
     gulp.watch('./scss/**/*.scss', ['styles']);
-    gulp.watch([basePaths.dev + 'js/**/*.js','js/**/*.js','!js/faster.js','!js/faster.min.js'], ['scripts']);
+    gulp.watch([basePaths.dev + 'js/**/*.js','js/**/*.js','!js/faster.js','!js/faster.min.js', '!js/admin.js'], ['scripts']);
 });
 
 // Starts watcher with browser-sync.
@@ -98,6 +98,20 @@ gulp.task('scripts', function() {
 
     gulp.src(scripts)
         .pipe(concat('faster.js'))
+        .pipe(gulp.dest('./js/'));
+});
+
+gulp.task('admin-scripts', function() {
+    var scripts = [
+        './js/admin.js'
+    ];
+    gulp.src(scripts)
+        .pipe(concat('admin.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('./js/'));
+
+    gulp.src(scripts)
+        .pipe(concat('admin.js'))
         .pipe(gulp.dest('./js/'));
 });
 
