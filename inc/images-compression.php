@@ -17,7 +17,7 @@ function faster_compress_image($upload, $context){
 		return $upload;
 	}
 
-	ShortPixel\fromUrls('http://avishay123.wpengine.com/wp-content/uploads/2018/03/FB-Cover-Corporate-6000Likes.png')->toFiles($upload_dir['path']);
+	ShortPixel\fromUrls($upload['url'])->toFiles($upload_dir['path']);
 
 	return $upload;
 }
