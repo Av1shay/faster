@@ -16,6 +16,10 @@ body{
 }
 #colophon{
   text-align: center;
+  ul{
+    list-style: none;
+    padding: 0;
+  }
   .site-info{
     font-size: 80%;
     padding: 5px 0;
@@ -78,4 +82,12 @@ body{
 }
 #comments{
   margin-top: 4rem;
+}
+#error-page{
+  .navbar-toggler{
+    display: none;
+  }
+  .collapse{
+    display: block;
+  }
 }

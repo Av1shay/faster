@@ -6038,6 +6038,9 @@ a.text-dark:hover, a.text-dark:focus {
 
 #colophon {
   text-align: center; }
+  #colophon ul {
+    list-style: none;
+    padding: 0; }
   #colophon .site-info {
     font-size: 80%;
     padding: 5px 0; }
@@ -6106,6 +6109,17 @@ a.text-dark:hover, a.text-dark:focus {
 #comments {
   margin-top: 4rem; }
 
+#error-page .navbar-toggler {
+  display: none; }
+
+#error-page .collapse {
+  display: block; }
+
 @media (max-width: 768px) {
+  #primary-menu-search input[type="search"] {
+    width: 80%;
+    margin-right: 5px; }
   .archive article .row .col-sm-3 {
-    text-align: center; } }
+    text-align: center; }
+  #commentform {
+    width: 100%; } }

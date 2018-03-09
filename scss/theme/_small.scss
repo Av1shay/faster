@@ -1,4 +1,10 @@
 @media (max-width: 768px) {
+  #primary-menu-search{
+    input[type="search"]{
+      width: 80%;
+      margin-right: 5px;
+    }
+  }
   .archive{
     article{
       .row{
@@ -7,5 +13,8 @@
         }
       }
     }
+  }
+  #commentform{
+    width: 100%;
   }
 }
