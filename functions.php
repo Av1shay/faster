@@ -262,4 +262,4 @@ if ( file_exists(get_template_directory() . '/inc/custom-snippets.php') ) {
 /**
  * Load theme auto-updater.
  */
-require get_template_directory() . '/inc/planwize-updater.php';
+require get_template_directory() . '/inc/faster-updater.php';
