@@ -78,8 +78,8 @@ if ( ! function_exists( 'faster_setup' ) ) :
 		 * @link https://codex.wordpress.org/Theme_Logo
 		 */
 		add_theme_support( 'custom-logo', array(
-			'height'      => 250,
-			'width'       => 250,
+			'height'      => 60,
+			'width'       => 200,
 			'flex-width'  => true,
 			'flex-height' => true,
 		) );
@@ -258,3 +258,8 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 if ( file_exists(get_template_directory() . '/inc/custom-snippets.php') ) {
 	require get_template_directory() . '/inc/custom-snippets.php';
 }
+
+/**
+ * Load theme auto-updater.
+ */
+require get_template_directory() . '/inc/planwize-updater.php';
