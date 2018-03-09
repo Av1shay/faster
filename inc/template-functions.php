@@ -32,6 +32,25 @@ function faster_pingback_header() {
 add_action( 'wp_head', 'faster_pingback_header' );
 
 /**
+ * Add extra settings using the Settings API
+ */
+function faster_settings_init(){
+    add_settings_field(
+        'faster_compress_images',
+        __('Compress Images', 'faster'),
+        'faster_compress_images_field',
+        'media'
+    );
+    register_setting('media', 'faster_compress_images');
+}
+add_action('admin_init', 'faster_settings_init');
+
+function faster_compress_images_field(){
+    echo '<input type="checkbox" name="faster_compress_images" id="compress-images" value="yes"'.checked('yes', get_option('faster_compress_images'), false).'/>
+        <label for="compress-images">'.__('Compress each uploaded image', 'faster').'</label>';
+}
+
+/**
  * Remove URL field from comment form.
  *
  * @param $fields array of fields
@@ -111,22 +130,53 @@ add_action('pre_get_posts', 'faster_prevent_visibility');
 ShortPixel\setKey('ngqWXzlZxmjgZnXi8vUv');
 
 /**
- * Hook after image successfully uploaded and compress it
- * @TODO compress also the uploaded image sizes
+ * Compress image and it's size versions on upload.
  *
- * @param $upload array
- * @param $context
- * @return array
+ * @param $metadata
+ * @param $ID
+ *
+ * @return mixed
  */
-function faster_compress_image($upload, $context){
+function faster_compress_image($metadata, $ID){
+    $mime_type = get_post_mime_type($ID);
 	$upload_dir = wp_upload_dir();
+	$compress_image = get_option('faster_compress_images');
 
-	if ( $upload['type'] != 'image/jpeg' && $upload['type'] != 'image/png' ) {
-		return $upload;
-	}
+	// bail if we don't have image or if the user don't want to compress the images
+    if ( ($mime_type != 'image/jpeg' && $mime_type != 'image/png') || $compress_image != 'yes' ) {
+        return $metadata;
+    }
 
-	$res = ShortPixel\fromFile($upload['file'])->toFiles($upload_dir['path']);
+    // check if current upload dir is writable
+    if ( ! is_writable($upload_dir['path']) ) {
+	    return $metadata;
+    }
 
-	return $upload;
+    // first compress the main image
+    $file = get_attached_file($ID);
+    try {
+        ShortPixel\fromFile($file)->toFiles($upload_dir['path']);
+    } catch ( Exception $e ) {
+        // don't proceed if we failed to compress the main image
+        return $metadata;
+    }
+
+    // compress the image sizes also
+    if ( isset($metadata['sizes']) ) {
+	    foreach ( $metadata['sizes'] as $size ) {
+	        $file = $upload_dir['path'] . '/' . $size['file'];
+
+	        if ( ! file_exists($file) ) continue;
+
+		    try {
+			    ShortPixel\fromFile($file)->toFiles($upload_dir['path']);
+		    } catch ( Exception $e ) {
+			    // don't stop if we fail to compress an image size
+			    continue;
+		    }
+	    }
+    }
+
+    return $metadata;
 }
-add_filter('wp_handle_upload', 'faster_compress_image', 10, 2);
+add_filter('wp_generate_attachment_metadata', 'faster_compress_image', 10, 2);
