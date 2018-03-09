@@ -216,6 +216,79 @@ function faster_wp_dropdown_roles($selected_roles){
 	echo $r;
 }
 
+/**
+ * Extend core function get_template_part(), so we can pass it variables.
+ *
+ * @param $template_names
+ * @param array $args
+ */
+function faster_get_template_part( $template_names, $args = array() ){
+	extract($args);
+	include(locate_template($template_names));
+}
+
+/**
+ * Simple shortcode to show last posts from category
+ *
+ * @param $atts - array of attributes for the shortcode
+ * @return String - the posts as html string
+ */
+function faster_grab_posts_func( $atts ) {
+
+	$atts = shortcode_atts( array(
+		'number_posts' 	=> '10', // How much posts to show?
+		'category'		=> '1', // From which category to take the posts?
+	), $atts, 'grab_posts' );
+
+	$args = array(
+		'posts_per_page'	=> $atts['number_posts'],
+		'cat'				=> $atts['category'],
+	);
+
+	$shortcode_posts = new WP_Query( $args );
+
+	if( $shortcode_posts->have_posts() ) {
+
+		ob_start();
+
+		while( $shortcode_posts->have_posts() ): $shortcode_posts->the_post();
+
+
+			echo '<article id="post-"' . get_the_ID() . '">';
+
+			if ( has_post_thumbnail() ) {
+				echo '<div class="row"><div class="col-sm-4 base-category-img">' . get_the_post_thumbnail() . '</div>';
+				echo '<div class="col-sm-8">';
+			}
+
+			echo '<header class="entry-header">';
+			echo '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a></h2>';
+			echo '</header>';
+
+			echo '<div class="entry-content">' . get_the_excerpt() . '</div>';
+
+			if ( has_post_thumbnail() ) {
+				echo '</div></div>';
+			}
+
+			echo '</article>';
+
+		endwhile;
+
+		wp_reset_postdata();
+
+		$output = ob_get_contents();
+
+		ob_end_clean();
+
+		return $output;
+
+	}
+
+	return __('No Posts Found', 'faster');
+}
+add_shortcode( 'grab_posts', 'faster_grab_posts_func' );
+
 require_once get_template_directory() . '/inc/shortpixel-master/shortpixel-php-req.php';
 
 /**
