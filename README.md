@@ -3,7 +3,7 @@
 Faster
 ===
 
-Faster is a fast lightweight wordpress theme designed to be a basis parent theme.
+Faster is a fast lightweight WordPress theme based on Bootstrap 4, designed to be a basis parent theme.
 
 Getting Started
 ---------------
