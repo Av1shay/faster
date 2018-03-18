@@ -83,11 +83,6 @@ if ( ! function_exists( 'faster_setup' ) ) :
 			'flex-width'  => true,
 			'flex-height' => true,
 		) );
-
-		// Add woocommerce support
-		if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-			add_theme_support('woocommerce');
-		}
 	}
 endif;
 add_action( 'after_setup_theme', 'faster_setup' );
@@ -330,6 +325,13 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 
 if ( file_exists(get_template_directory() . '/inc/custom-snippets.php') ) {
 	require get_template_directory() . '/inc/custom-snippets.php';
+}
+
+/**
+ * Load Woocommerce functions file
+ */
+if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	require get_template_directory() . '/inc/woocommerce.php';
 }
 
 /**
