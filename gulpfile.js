@@ -14,7 +14,7 @@ var browserSyncWatchFiles = [
 ];
 
 var browserSyncOptions = {
-    proxy: "localhost/hazeracareer/",
+    proxy: "Root path should be placed here",
     notify: false,
     port: 8080
 };
