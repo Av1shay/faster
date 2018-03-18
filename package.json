@@ -19,7 +19,7 @@
   ],
   "author": "Avishay Guttman",
   "license": "MIT",
-  "homepage": "https://planwize.com",
+  "homepage": "",
   "devDependencies": {
     "bootstrap": "^4.0.0-alpha.6",
     "browser-sync": "^2.21.0",
