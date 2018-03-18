@@ -58,7 +58,7 @@ function faster_customize_register( $wp_customize ) {
 	Footer content
 	---------------------------*/
 	$wp_customize->add_setting('faster_footer_content', array(
-		'default' => __('Theme Faster by <a href="https://planwize.com/">Planwize</a>', 'faster'),
+		'default' => __('Theme Faster by Avishay', 'faster'),
 		'capability' => 'edit_theme_options',
 		'transport' => 'postMessage'
 	));

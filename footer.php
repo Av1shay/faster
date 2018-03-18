@@ -9,7 +9,7 @@
  * @package faster
  */
 
-$footer_content = get_theme_mod('faster_footer_content') ?  get_theme_mod('faster_footer_content') : __('Theme Faster by <a href="https://planwize.com/">Planwize</a>', 'faster');
+$footer_content = get_theme_mod('faster_footer_content') ?  get_theme_mod('faster_footer_content') : __('Theme Faster by Avishay', 'faster');
 $bg_color = get_theme_mod('faster_footer_bg_color');
 ?>
 
