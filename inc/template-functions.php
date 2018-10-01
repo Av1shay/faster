@@ -26,7 +26,7 @@ add_filter( 'body_class', 'faster_body_classes' );
  */
 function faster_pingback_header() {
 	if ( is_singular() && pings_open() ) {
-		echo '<link rel="pingback" href="', esc_url( get_bloginfo( 'pingback_url' ) ), '">';
+		printf( '<link rel="pingback" href="%s">', esc_url( get_bloginfo( 'pingback_url' ) ) );
 	}
 }
 add_action( 'wp_head', 'faster_pingback_header' );
